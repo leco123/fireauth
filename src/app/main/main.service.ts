@@ -1,4 +1,4 @@
-import { AngularFirestore } from '@angular/fire/fi';
+
 import { Injectable } from '@angular/core';
 import { Person } from './person';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';

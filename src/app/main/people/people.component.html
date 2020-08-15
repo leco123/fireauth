@@ -1,1 +1,18 @@
-<p>people works!</p>
+<div fxLayout="row" fxLayoutAlign="center center">
+    <h3>People</h3>
+</div>
+<div>
+    <button mat-button color="primary" (click)="generate()"> <mat-icon>save</mat-icon> Generate </button>
+</div>
+<mat-divider></mat-divider>
+
+<div *ngIf="people$ | async; let people">
+<mat-list>
+    <mat-list-item *ngFor="let p of people">
+        {{ p.name }}
+        {{ p.age }} -
+        {{ p.company }} - 
+        <a href="mailto:{{ p.email }}" title="E-mail: {{ p.email }}">e-mail </a>
+    </mat-list-item>
+</mat-list>
+</div>
