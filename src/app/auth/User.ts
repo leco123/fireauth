@@ -8,6 +8,6 @@ export interface User {
     phone: string;
     mobilephone: string;
     email: string;
-    password?: string
+    password?: string;
     id?: string;
 }
