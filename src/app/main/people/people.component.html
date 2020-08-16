@@ -8,11 +8,15 @@
 
 <div *ngIf="people$ | async; let people">
 <mat-list>
+    <h3 matSubheader>Pessoas</h3>
     <mat-list-item *ngFor="let p of people">
-        {{ p.name }}
-        {{ p.age }} -
-        {{ p.company }} - 
-        <a href="mailto:{{ p.email }}" title="E-mail: {{ p.email }}">e-mail </a>
+        <mat-icon matListIcon>person</mat-icon>
+        <h3 matLine> {{ p.name }} {{ p.lastname }}</h3>
+        <p matLine>
+            <span>  {{ p.email }} </span>
+            <span> {{ p.age }} - {{ p.company }} </span>
+        </p>
     </mat-list-item>
+    <mat-divider></mat-divider>
 </mat-list>
 </div>

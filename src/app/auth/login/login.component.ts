@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = this.fb.group({
-    'email': ['', Validators.required, Validators.email],
-    'password': ['', Validators.required, Validators.minLength(6)]
+    'email': ['', [Validators.required, Validators.email]],
+    'password': ['',[Validators.required, Validators.minLength(6)]]
   });
 
   loading: boolean = false;
@@ -63,7 +63,19 @@ export class LoginComponent implements OnInit {
   }
 
   loginGoogle(){
-    
+    this.loading = true;
+    this.authService.loginGoogle()
+      .subscribe(
+        (u) => {
+          this.loginOkNotification(u);
+          this.router.navigateByUrl('/');
+          this.loading = false;
+        },
+        (err) => {
+          this.loginErroNotification(err);
+          this.loading = false;
+        }
+      );
   }
 
 }

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { User } from './User';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { from, Observable, throwError } from 'rxjs';
-import { switchMap, catchError } from 'rxjs/operators';
-
+import { from, Observable, throwError, of } from 'rxjs';
+import { switchMap, catchError, map, tap} from 'rxjs/operators';
+import { auth } from 'firebase/app';
 @Injectable({
   providedIn: 'root'
 })
@@ -47,4 +47,56 @@ export class AuthService {
     this.afAuth.auth.signOut();
   }
 
+  getUser(): Observable<User> {
+    return this.afAuth.authState
+      .pipe(
+        switchMap(u => (u) 
+          ? this.userCollection.doc<User>(u.uid).valueChanges() 
+          : of(null))
+      ); 
+  }
+
+  authenticated(): Observable<boolean> {
+    return this.afAuth.authState
+      .pipe(
+        map(u => (u) ? true : false)
+      ) 
+  }
+
+  async updateUserData(u: auth.UserCredential){
+    try {
+      const newUser: User = {
+        firstname: u.user.displayName,
+        lastname: '', 
+        address: '',
+        city: '',
+        state: '',
+        phone: '',
+        mobilephone: '',
+        email: u.user.email,
+        password: '',
+        id: u.user.uid,
+      };
+      await this.userCollection.doc(u.user.uid).set(newUser);
+      return newUser;
+    } catch (e) {
+      throw new Error(e);
+    }
+  }
+
+  async loginWithGoogleAccount(){
+   try {
+    const provider = new auth.GoogleAuthProvider();
+    let credentials: auth.UserCredential = await this.afAuth.auth.signInWithPopup(provider);
+    let user: User = await this.updateUserData(credentials);
+    return user;
+   } catch (e) {
+     throw new Error(e);
+   } 
+  }
+
+  loginGoogle(): Observable<User>{
+    return from(this.loginWithGoogleAccount()); 
+  }
+  
 }

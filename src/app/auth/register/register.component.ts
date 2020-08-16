@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit {
       email: this.formRegister.value.email,
       password: this.formRegister.value.password1
     };
-    
+
     this.authService.register(newUser)
       .subscribe(
         (u) => {
@@ -79,5 +79,6 @@ export class RegisterComponent implements OnInit {
         }
       );
   }
+
 
 }

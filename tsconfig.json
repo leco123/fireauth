@@ -11,10 +11,10 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
-    "noEmitOnError": true,
-    "removeComments": true, 
+    //"noEmitOnError": true,
+    //"removeComments": true, 
     //"strictNullChecks": true, 
-    "noImplicitAny": true,
+    //"noImplicitAny": true,
     "typeRoots": [
       "node_modules/@types"
     ],
